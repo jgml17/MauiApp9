@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="MauiApp9.SingletonPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:local="clr-namespace:MauiApp9.Helper"
+    xmlns:syncfusion="http://schemas.syncfusion.com/maui/toolkit"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.Content>
+
+        <VerticalStackLayout>
+
+            <!--  Main content Grid  -->
+            <Grid
+                BackgroundColor="Bisque"
+                HeightRequest="{x:Static local:DeviceDisplayHelper.ContentHeight}"
+                HorizontalOptions="FillAndExpand"
+                RowDefinitions="*,*,*,*"
+                VerticalOptions="FillAndExpand">
+
+                <Label
+                    Grid.Row="0"
+                    HorizontalOptions="Center"
+                    Text="This is a singleton page"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Clicked="Button_OnClicked"
+                    Grid.Row="1"
+                    HorizontalOptions="Center"
+                    Text="Mopups"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Clicked="Button_Popup_OnClicked"
+                    Grid.Row="2"
+                    HorizontalOptions="Center"
+                    Text="Popup"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Clicked="Button_Sync_OnClicked"
+                    Grid.Row="3"
+                    HorizontalOptions="Center"
+                    Text="Bottom sheet Syncfusion"
+                    VerticalOptions="Center" />
+
+                <!--  Bottom Sheet - separate from main content  -->
+                <syncfusion:SfBottomSheet
+                    AllowedState="FullExpanded"
+                    Background="White"
+                    CollapseOnOverlayTap="True"
+                    ContentPadding="10"
+                    CornerRadius="15, 15, 0, 0"
+                    EnableSwiping="True"
+                    FullExpandedRatio="1"
+                    Grid.Row="0"
+                    Grid.RowSpan="4"
+                    IsModal="True"
+                    ShowGrabber="True"
+                    State="FullExpanded"
+                    x:Name="bottomSheet">
+                    <syncfusion:SfBottomSheet.BottomSheetContent>
+                        <VerticalStackLayout Padding="10" Spacing="50">
+                            <Button
+                                Clicked="Button_CloseBottomSheet_OnClicked"
+                                HorizontalOptions="Center"
+                                Text="Close Bottom Sheet"
+                                VerticalOptions="CenterAndExpand" />
+                            <Label
+                                HorizontalOptions="Center"
+                                Text="This is a Bottom Sheet"
+                                VerticalOptions="CenterAndExpand" />
+                        </VerticalStackLayout>
+                    </syncfusion:SfBottomSheet.BottomSheetContent>
+                </syncfusion:SfBottomSheet>
+
+            </Grid>
+
+            <!--  Popup as overlay  -->
+            <syncfusion:SfPopup
+                AnimationDuration="150"
+                AnimationEasing="SinIn"
+                AnimationMode="SlideOnBottom"
+                AppearanceMode="TwoButton"
+                OverlayMode="Blur"
+                ShowFooter="True"
+                x:Name="popup">
+                <syncfusion:SfPopup.PopupStyle>
+                    <syncfusion:PopupStyle
+                        AcceptButtonBackground="DimGray"
+                        AcceptButtonTextColor="White"
+                        BlurIntensity="Custom"
+                        BlurRadius="5"
+                        DeclineButtonBackground="DimGray"
+                        DeclineButtonTextColor="White"
+                        FooterBackground="LightGray"
+                        FooterButtonCornerRadius="0,20,20,0"
+                        HasShadow="True" />
+                </syncfusion:SfPopup.PopupStyle>
+            </syncfusion:SfPopup>
+
+        </VerticalStackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,29 @@
+{
+  "GET /plugin/info": {
+    "Name": "Custom Message Plugin",
+    "Version": "2.1.0",
+    "DownloadUrl": "https://your-api-endpoint.com/plugins/CustomMessagePlugin.dll",
+    "AssemblyName": "CustomMessagePlugin",
+    "TypeName": "MauiApp9.Plugins.CustomMessagePlugin",
+    "Description": "Enhanced message plugin with custom UI and features"
+  },
+  
+  "Plugin DLL Structure": {
+    "Project": "CustomMessagePlugin.csproj",
+    "Target": "net9.0",
+    "References": [
+      "Microsoft.Maui.Controls",
+      "Your main app assembly (for IPluginPage interface)"
+    ],
+    "Output": "CustomMessagePlugin.dll"
+  },
+
+  "Deployment Steps": [
+    "1. Create separate .NET MAUI class library project",
+    "2. Reference your main app or create shared interface library", 
+    "3. Implement IPluginPage interface",
+    "4. Build DLL and upload to your server",
+    "5. Update API endpoint to return new plugin info",
+    "6. App will download and load new DLL automatically"
+  ]
+}

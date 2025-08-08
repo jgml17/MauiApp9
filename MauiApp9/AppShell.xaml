@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    Shell.FlyoutBehavior="Flyout"
+    Title="MauiApp9"
+    iOsSpecific:Page.UseSafeArea="True"
+    x:Class="MauiApp9.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:local="clr-namespace:MauiApp9"
+    xmlns:plugin="clr-namespace:MauiApp9.Plugin"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <TabBar
+        Shell.BackgroundColor="{StaticResource Gray950}"
+        Shell.ForegroundColor="{StaticResource Black}"
+        Shell.UnselectedColor="{StaticResource PrimaryDarkText}">
+
+        <Tab Route="MainPage" Title="Sync Test">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:MainPage}"
+                NavigationPage.HasNavigationBar="False"
+                Shell.FlyoutItemIsVisible="False"
+                Shell.NavBarIsVisible="False" />
+        </Tab>
+
+        <Tab Route="SingletonPage" Title="Bottom Sheet Test">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:SingletonPage}"
+                NavigationPage.HasNavigationBar="False"
+                Shell.FlyoutItemIsVisible="False"
+                Shell.NavBarIsVisible="False" />
+        </Tab>
+
+        <Tab Route="OcrPage" Title="OCR">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:OcrPage}"
+                NavigationPage.HasNavigationBar="False"
+                Shell.FlyoutItemIsVisible="False"
+                Shell.NavBarIsVisible="False" />
+        </Tab>
+
+        <Tab Route="OcrWithAiPage" Title="OCR BE with AI">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:OcrWithAiPage}"
+                NavigationPage.HasNavigationBar="False"
+                Shell.FlyoutItemIsVisible="False"
+                Shell.NavBarIsVisible="False" />
+        </Tab>
+
+        <Tab Route="MessagePage" Title="Message">
+            <ShellContent
+                ContentTemplate="{DataTemplate plugin:PluginMessagePage}"
+                NavigationPage.HasNavigationBar="False"
+                Shell.FlyoutItemIsVisible="False"
+                Shell.NavBarIsVisible="False" />
+        </Tab>
+    </TabBar>
+
+    <!--  <ShellContent  -->
+    <!--  Title="Home"  -->
+    <!--  ContentTemplate="{DataTemplate local:SingletonPage}"  -->
+    <!--  Route="SingletonPage" />  -->
+</Shell>

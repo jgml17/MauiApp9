@@ -1,0 +1,115 @@
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.sln.DotSettings.user
+*.DotSettings.user
+FolderProfile.pubxml.user
+
+# User-specific files
+*.rsuser
+*.userprefs
+
+# Build results
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.tlog
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+project.assets.json
+project.nuget.cache
+*.csproj.nuget.dgspec.json
+*.csproj.nuget.g.props
+*.csproj.nuget.g.targets
+project.packagespec.json
+rider.project.model.nuget.info
+rider.project.restore.info
+
+# MAUI
+**/Platforms/**/bin/
+**/Platforms/**/obj/
+
+# .NET
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Core
+**/wwwroot/lib/
+appsettings.Development.json
+
+# Plugin DLLs (generated)
+**/plugins/*.dll
+**/plugins/*.pdb
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Build scripts output
+build.log
+
+# Temporary files
+*.tmp
+*.temp
+*~

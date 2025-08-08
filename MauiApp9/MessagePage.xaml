@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="MauiApp9.MessagePage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Message">
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
+            <Label 
+                x:Name="WelcomeLabel"
+                Text="Welcome to the Message Page!"
+                FontSize="18"
+                HorizontalOptions="Center" />
+
+            <Button 
+                x:Name="ShowMessageBtn"
+                Text="Show Message"
+                Clicked="OnShowMessageClicked"
+                HorizontalOptions="Center" />
+
+            <Label 
+                x:Name="MessageLabel"
+                Text=""
+                FontSize="16"
+                HorizontalOptions="Center"
+                IsVisible="False" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

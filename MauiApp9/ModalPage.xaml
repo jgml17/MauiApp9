@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    BackgroundColor="CadetBlue"
+    Shell.NavBarIsVisible="False"
+    Shell.PresentationMode="ModalAnimated"
+    Shell.TabBarIsVisible="False"
+    iOsSpecific:Page.UseSafeArea="False"
+    maui:LeakMonitorBehavior.Cascade="True"
+    maui:TearDownBehavior.Cascade="False"
+    x:Class="MauiApp9.ModalPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:maui="clr-namespace:MemoryToolkit.Maui;assembly=MemoryToolkit.Maui"
+    xmlns:syncFusion="http://schemas.syncfusion.com/maui/toolkit"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="#E6CCCCCC" StatusBarStyle="Default" />
+    </ContentPage.Behaviors>
+
+    <ScrollView>
+        <VerticalStackLayout
+            HeightRequest="2000"
+            Padding="30,0"
+            Spacing="25"
+            VerticalOptions="Fill">
+            <Button
+                Clicked="Exit_OnClicked"
+                HorizontalOptions="Fill"
+                Text="Exit" />
+
+            <Button
+                Clicked="OpenStack_OnClicked"
+                HorizontalOptions="Fill"
+                Text="Open Stack" />
+
+            <syncFusion:SfTextInputLayout
+                ContainerBackground="Transparent"
+                ContainerType="Outlined"
+                EnablePasswordVisibilityToggle="True"
+                ErrorText="Invalid email"
+                HasError="True"
+                Hint="Password"
+                InputViewPadding="10,5,10,5"
+                LeadingViewPosition="Outside"
+                OutlineCornerRadius="8"
+                Stroke="#0450C2">
+                <Entry />
+                <syncFusion:SfTextInputLayout.LeadingView>
+                    <Label Text="&#x1F5D3;" />
+                </syncFusion:SfTextInputLayout.LeadingView>
+            </syncFusion:SfTextInputLayout>
+
+            <syncFusion:SfTextInputLayout
+                ContainerBackground="Transparent"
+                ContainerType="Outlined"
+                HasError="True"
+                HelperText="Select a fruit"
+                Hint="Fruit">
+                <Picker SelectedItem="Apple">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Apple</x:String>
+                            <x:String>Orange</x:String>
+                            <x:String>Strawberry</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="Stroke" Value="#79747E" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState Name="Focused">
+                                <VisualState.Setters>
+                                    <Setter Property="Stroke" Value="#6750A4" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState Name="Error">
+                                <VisualState.Setters>
+                                    <Setter Property="Stroke" Value="#B3261E" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </syncFusion:SfTextInputLayout>
+
+            <syncFusion:SfShimmer
+                BackgroundColor="Transparent"
+                HeightRequest="400"
+                IsActive="True"
+                RepeatCount="8"
+                Type="CirclePersona"
+                VerticalOptions="Fill"
+                WaveColor="#89CFF0">
+                <StackLayout>
+                    <Label
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Content is loaded!"
+                        VerticalOptions="CenterAndExpand" />
+                </StackLayout>
+            </syncFusion:SfShimmer>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    BackgroundColor="Brown"
+    Shell.NavBarIsVisible="False"
+    Shell.PresentationMode="ModalAnimated"
+    Shell.TabBarIsVisible="False"
+    maui:LeakMonitorBehavior.Cascade="True"
+    maui:TearDownBehavior.Cascade="True"
+    x:Class="MauiApp9.StackPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:maui="clr-namespace:MemoryToolkit.Maui;assembly=MemoryToolkit.Maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30,0" Spacing="25">
+            <Button
+                Clicked="Button_OnRootClicked"
+                HorizontalOptions="Fill"
+                Text="Go To Root" />
+
+            <Button
+                Clicked="Button_OnBackClicked"
+                HorizontalOptions="Fill"
+                Text="Back" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

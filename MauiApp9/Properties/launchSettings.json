@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "iOS Simulator": {
+      "commandName": "Project",
+      "nativeDebugging": false,
+      "hotReloadEnabled": true
+    },
+    "Android Emulator": {
+      "commandName": "Project",
+      "nativeDebugging": false,
+      "hotReloadEnabled": true
+    }
+  }
+}
