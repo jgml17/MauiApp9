@@ -74,11 +74,11 @@
     
     <ItemGroup>
         <PackageReference Include="AdamE.MemoryToolkit.Maui" Version="1.0.0" />
-        <PackageReference Include="CommunityToolkit.Maui" Version="12.1.0" />
-        <PackageReference Include="Emgu.CV.runtime.maui.mini" Version="4.10.0.5680" />
-        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.90" />
+        <PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
+<!--        <PackageReference Include="Emgu.CV.runtime.maui.mini" Version="4.11.0.5746" />-->
+        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.100" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8" />
-        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.90" />
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.100" />
         <PackageReference Include="Mopups" Version="1.3.4" />
         <PackageReference Include="Plugin.Maui.OCR" Version="1.0.15" />
         <PackageReference Include="Plugin.Toolkit.Fonts.MaterialIcons" Version="1.0.4" />
@@ -88,10 +88,12 @@
     
     <ItemGroup>
       <MauiXaml Remove="MessagePage.xaml" />
+      <MauiXaml Remove="OcrPage.xaml" />
     </ItemGroup>
     
     <ItemGroup>
       <Compile Remove="MessagePage.xaml.cs" />
+      <Compile Remove="OcrPage.xaml.cs" />
     </ItemGroup>
     
     <ItemGroup>

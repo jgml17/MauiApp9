@@ -7,7 +7,7 @@
       "typeName": "ChristmasMessagePlugin.ChristmasMessagePlugin",
       "description": "Enhanced message plugin with Christmas custom UI and features",
       "fileName": "ChristmasMessagePlugin.dll",
-      "isActive": true
+      "isActive": false
     },
     {
       "name": "Advanced Message Plugin",
@@ -16,7 +16,7 @@
       "typeName": "MauiApp9.Plugins.CustomMessagePlugin",
       "description": "Enhanced message plugin with custom UI and features",
       "fileName": "CustomMessagePlugin.dll",
-      "isActive": false
+      "isActive": true
     }
   ]
 }
