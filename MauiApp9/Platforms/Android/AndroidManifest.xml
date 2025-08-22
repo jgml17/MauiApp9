@@ -3,6 +3,8 @@
 	<application android:allowBackup="true" android:usesCleartextTraffic="true"
 				 android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true">
 		<meta-data android:name="com.google.mlkit.vision.DEPENDENCIES" android:value="ocr" />
+        <activity android:name="com.canhub.cropper.CropImageActivity"
+                  android:theme="@style/Base.Theme.AppCompat"/>
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />

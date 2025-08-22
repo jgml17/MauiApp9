@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
@@ -26,7 +27,7 @@ public partial class OcrPage : ContentPage
     private readonly IOcrService _ocr;
     private byte[] _originalImageData;
     private byte[] _preprocessedImageData;
-
+    private HttpClient _httpClient;
 
     public OcrPage(IOcrService feature)
     {
@@ -35,13 +36,12 @@ public partial class OcrPage : ContentPage
         _ocr = feature;
     }
 
-
-
     protected override async void OnAppearing()
     {
         base.OnAppearing();
 
         await _ocr.InitAsync();
+        _httpClient = new HttpClient();
     }
 
     private void CameraTabBtn_Clicked(object sender, EventArgs e)
@@ -181,22 +181,26 @@ public partial class OcrPage : ContentPage
 
     private async void OpenFromCameraUseEventBtn_Clicked(object sender, EventArgs e)
     {
-        if (MediaPicker.Default.IsCaptureSupported)
+        new ImageCropper.Maui.ImageCropper()
         {
-            var photo = await MediaPicker.Default.CapturePhotoAsync();
-
-            if (photo == null)
+            // PageTitle = LocalizationResourceManager["CropPageTitle"].ToString(),
+            // AspectRatioX = 1,
+            // AspectRatioY = 1,
+            CropShape = ImageCropper.Maui.ImageCropper.CropShapeType.Rectangle,
+            // SelectSourceTitle = LocalizationResourceManager["SelectOption"].ToString(),
+            // TakePhotoTitle = LocalizationResourceManager["PickPhoto"].ToString(),
+            // PhotoLibraryTitle = LocalizationResourceManager["TakePicture"].ToString(),
+            // CancelButtonTitle = LocalizationResourceManager["Cancel"].ToString(),
+            Success = async (imageFile) =>
             {
-                return;
-            }
-
-            _ocr.RecognitionCompleted += OnRecognitionCompleted;
-            await StartProcessingPhoto(photo);
-        }
-        else
-        {
-            await DisplayAlert("Sorry", "Image capture is not supported on this device.", "OK");
-        }
+                await Dispatcher.DispatchAsync(async () =>
+                {
+                    var photo = new FileResult(imageFile);
+                    _ocr.RecognitionCompleted += OnRecognitionCompleted;
+                    await StartProcessingPhoto(photo);
+                });
+            },
+        }.Show(this);
     }
 
     private async void OpenFromFileBtn_Clicked(object sender, EventArgs e)
@@ -224,7 +228,7 @@ public partial class OcrPage : ContentPage
         await StartProcessingPhoto(photo);
     }
 
-    private void OnRecognitionCompleted(object sender, OcrCompletedEventArgs e)
+    private void OnRecognitionCompleted(object? sender, OcrCompletedEventArgs e)
     {
         // Remove the event handler to avoid multiple subscriptions
         _ocr.RecognitionCompleted -= OnRecognitionCompleted;
@@ -238,6 +242,96 @@ public partial class OcrPage : ContentPage
 
             NoImagePlaceholder.IsVisible = false;
         });
+    }
+
+    private async Task<string> CallOcrApi(byte[] imageBytes)
+    {
+        try
+        {
+            var apiUrl = "http://192.168.68.57:5678/webhook-test/ocrdata";
+            // var apiUrl = "http://192.168.68.57:5678/webhook/ocrdata";
+
+            // Create multipart form data content
+            using var content = new MultipartFormDataContent();
+            using var imageContent = new ByteArrayContent(imageBytes);
+            imageContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(
+                "image/jpeg"
+            );
+            content.Add(imageContent, "data", "image.jpg");
+
+            // Send POST request
+            var response = await _httpClient.PostAsync(apiUrl, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                // Try to parse the specific JSON format returned by your API
+                try
+                {
+                    using var jsonDoc = JsonDocument.Parse(responseContent);
+
+                    // Check if it's an array
+                    if (jsonDoc.RootElement.ValueKind == JsonValueKind.Array)
+                    {
+                        var array = jsonDoc.RootElement.EnumerateArray();
+                        var firstElement = array.FirstOrDefault();
+
+                        if (
+                            firstElement.ValueKind != JsonValueKind.Undefined
+                            && firstElement.TryGetProperty("output", out var outputElement)
+                        )
+                        {
+                            return outputElement.GetString() ?? "No output found in response.";
+                        }
+                    }
+
+                    // Fallback: look for common OCR response fields
+                    if (jsonDoc.RootElement.TryGetProperty("text", out var textElement))
+                    {
+                        return textElement.GetString() ?? responseContent;
+                    }
+                    else if (jsonDoc.RootElement.TryGetProperty("result", out var resultElement))
+                    {
+                        return resultElement.GetString() ?? responseContent;
+                    }
+                    else if (
+                        jsonDoc.RootElement.TryGetProperty(
+                            "extractedText",
+                            out var extractedTextElement
+                        )
+                    )
+                    {
+                        return extractedTextElement.GetString() ?? responseContent;
+                    }
+                    else
+                    {
+                        // Return the full JSON response if no specific text field is found
+                        return responseContent;
+                    }
+                }
+                catch (JsonException)
+                {
+                    // If it's not JSON, return as plain text
+                    return responseContent;
+                }
+            }
+            else
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException(
+                    $"API call failed with status {response.StatusCode}: {errorContent}"
+                );
+            }
+        }
+        catch (HttpRequestException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Unexpected error calling OCR API: {ex.Message}", ex);
+        }
     }
 
     /// <summary>
