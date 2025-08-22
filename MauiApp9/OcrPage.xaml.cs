@@ -97,6 +97,7 @@ public partial class OcrPage : ContentPage
         NoImagePlaceholder.IsVisible = true;
         _originalImageData = null;
         _preprocessedImageData = null;
+        AiResponseLbl.Text = "AI response will appear here...";
     }
 
     private async void CopyBtn_Clicked(object sender, EventArgs e)
@@ -123,11 +124,12 @@ public partial class OcrPage : ContentPage
 
             var aiResult = await CallOcrApi(ResultLbl.Text);
 
-            await DisplayAlert("AI Analysis", aiResult, "OK");
+            AiResponseLbl.Text = FormatJsonForDisplay(aiResult);
+            ;
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"AI analysis failed: {ex.Message}", "OK");
+            AiResponseLbl.Text = $"Error: {ex.Message}";
         }
         finally
         {
@@ -135,10 +137,28 @@ public partial class OcrPage : ContentPage
         }
     }
 
+    public string FormatJsonForDisplay(string rawResponse)
+    {
+        // Step 1: Extract the "output" string
+        var jsonArray = JsonDocument.Parse(rawResponse).RootElement;
+        var outputString = jsonArray[0].GetProperty("output").GetString();
+
+        // Step 2: Parse the string as JSON again
+        var parsedJson = JsonDocument.Parse(outputString);
+
+        // Step 3: Reformat it with indentation
+        var formatted = JsonSerializer.Serialize(
+            parsedJson,
+            new JsonSerializerOptions { WriteIndented = true }
+        );
+
+        return formatted;
+    }
+
     private async Task<string> CallOcrApi(string text)
     {
-        var apiUrl = "http://192.168.68.57:5678/webhook-test/ocrdata";
-        // var apiUrl = "http://192.168.68.57:5678/webhook/ocrdata";
+        // var apiUrl = "http://192.168.68.57:5678/webhook-test/ocrdata";
+        var apiUrl = "http://192.168.68.57:5678/webhook/ocrdata";
 
         using var client = new HttpClient();
         var json = JsonSerializer.Serialize(new { text });

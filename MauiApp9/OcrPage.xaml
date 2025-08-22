@@ -206,6 +206,38 @@
                 TextColor="White"
                 x:Name="AnalyzeWithAiBtn" />
 
+            <!--  AI Response Text Area  -->
+            <Label
+                FontAttributes="Bold"
+                FontSize="16"
+                Text="AI Response:" />
+
+            <Border
+                BackgroundColor="White"
+                MinimumHeightRequest="150"
+                Stroke="Blue"
+                StrokeThickness="2">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="5" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow
+                        Brush="Black"
+                        Offset="2,2"
+                        Opacity="0.3"
+                        Radius="5" />
+                </Border.Shadow>
+                <ScrollView>
+                    <Label
+                        FontSize="14"
+                        Padding="10"
+                        Text="AI response will appear here..."
+                        TextColor="Black"
+                        VerticalOptions="StartAndExpand"
+                        x:Name="AiResponseLbl" />
+                </ScrollView>
+            </Border>
+
         </VerticalStackLayout>
     </ScrollView>
 
