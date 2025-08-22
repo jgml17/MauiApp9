@@ -112,6 +112,42 @@ public partial class OcrPage : ContentPage
         }
     }
 
+    private async void AnalyzeWithAiBtn_Clicked(object sender, EventArgs e)
+    {
+        if (ResultLbl.Text == "Waiting for results ...")
+            return;
+
+        try
+        {
+            ShowLoading("Analyzing with AI...");
+
+            var aiResult = await CallOcrApi(ResultLbl.Text);
+
+            await DisplayAlert("AI Analysis", aiResult, "OK");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"AI analysis failed: {ex.Message}", "OK");
+        }
+        finally
+        {
+            HideLoading();
+        }
+    }
+
+    private async Task<string> CallOcrApi(string text)
+    {
+        var apiUrl = "http://192.168.68.57:5678/webhook-test/ocrdata";
+        // var apiUrl = "http://192.168.68.57:5678/webhook/ocrdata";
+
+        using var client = new HttpClient();
+        var json = JsonSerializer.Serialize(new { text });
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+        var response = await client.PostAsync(apiUrl, content);
+        return await response.Content.ReadAsStringAsync();
+    }
+
     private async void EnhanceImageBtn_Clicked(object sender, EventArgs e)
     {
         try
@@ -242,96 +278,6 @@ public partial class OcrPage : ContentPage
 
             NoImagePlaceholder.IsVisible = false;
         });
-    }
-
-    private async Task<string> CallOcrApi(byte[] imageBytes)
-    {
-        try
-        {
-            var apiUrl = "http://192.168.68.57:5678/webhook-test/ocrdata";
-            // var apiUrl = "http://192.168.68.57:5678/webhook/ocrdata";
-
-            // Create multipart form data content
-            using var content = new MultipartFormDataContent();
-            using var imageContent = new ByteArrayContent(imageBytes);
-            imageContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(
-                "image/jpeg"
-            );
-            content.Add(imageContent, "data", "image.jpg");
-
-            // Send POST request
-            var response = await _httpClient.PostAsync(apiUrl, content);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var responseContent = await response.Content.ReadAsStringAsync();
-
-                // Try to parse the specific JSON format returned by your API
-                try
-                {
-                    using var jsonDoc = JsonDocument.Parse(responseContent);
-
-                    // Check if it's an array
-                    if (jsonDoc.RootElement.ValueKind == JsonValueKind.Array)
-                    {
-                        var array = jsonDoc.RootElement.EnumerateArray();
-                        var firstElement = array.FirstOrDefault();
-
-                        if (
-                            firstElement.ValueKind != JsonValueKind.Undefined
-                            && firstElement.TryGetProperty("output", out var outputElement)
-                        )
-                        {
-                            return outputElement.GetString() ?? "No output found in response.";
-                        }
-                    }
-
-                    // Fallback: look for common OCR response fields
-                    if (jsonDoc.RootElement.TryGetProperty("text", out var textElement))
-                    {
-                        return textElement.GetString() ?? responseContent;
-                    }
-                    else if (jsonDoc.RootElement.TryGetProperty("result", out var resultElement))
-                    {
-                        return resultElement.GetString() ?? responseContent;
-                    }
-                    else if (
-                        jsonDoc.RootElement.TryGetProperty(
-                            "extractedText",
-                            out var extractedTextElement
-                        )
-                    )
-                    {
-                        return extractedTextElement.GetString() ?? responseContent;
-                    }
-                    else
-                    {
-                        // Return the full JSON response if no specific text field is found
-                        return responseContent;
-                    }
-                }
-                catch (JsonException)
-                {
-                    // If it's not JSON, return as plain text
-                    return responseContent;
-                }
-            }
-            else
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                throw new HttpRequestException(
-                    $"API call failed with status {response.StatusCode}: {errorContent}"
-                );
-            }
-        }
-        catch (HttpRequestException)
-        {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Unexpected error calling OCR API: {ex.Message}", ex);
-        }
     }
 
     /// <summary>

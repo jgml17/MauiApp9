@@ -197,6 +197,15 @@
                 </Grid>
             </Border>
 
+            <!--  AI Analysis Button  -->
+            <Button
+                BackgroundColor="DarkBlue"
+                Clicked="AnalyzeWithAiBtn_Clicked"
+                IsEnabled="{Binding Source={x:Reference ResultLbl}, Path=Text, Converter={toolkit:IsNotEqualConverter}, ConverterParameter='Waiting for results ...'}"
+                Text="Analyze with AI"
+                TextColor="White"
+                x:Name="AnalyzeWithAiBtn" />
+
         </VerticalStackLayout>
     </ScrollView>
 
