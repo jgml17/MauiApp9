@@ -31,13 +31,13 @@
                 Shell.NavBarIsVisible="False" />
         </Tab>
 
-        <!-- <Tab Route="OcrPage" Title="OCR"> -->
-        <!--  <ShellContent  -->
-        <!--  ContentTemplate="{DataTemplate local:OcrPage}"  -->
-        <!--  NavigationPage.HasNavigationBar="False"  -->
-        <!--  Shell.FlyoutItemIsVisible="False"  -->
-        <!--  Shell.NavBarIsVisible="False" />  -->
-        <!-- </Tab> -->
+        <Tab Route="OcrPage" Title="OCR">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:OcrPage}"
+                NavigationPage.HasNavigationBar="False"
+                Shell.FlyoutItemIsVisible="False"
+                Shell.NavBarIsVisible="False" />
+        </Tab>
 
         <Tab Route="OcrWithAiPage" Title="OCR BE with AI">
             <ShellContent

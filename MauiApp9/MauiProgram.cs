@@ -17,7 +17,7 @@ public static class MauiProgram
             .UseMauiCommunityToolkit()
             .ConfigureMopups()
             .ConfigureSyncfusionToolkit()
-            // .UseOcr()
+            .UseOcr()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -28,7 +28,7 @@ public static class MauiProgram
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<BottomSheetPopup>();
 
-        // builder.Services.AddSingleton(OcrPlugin.Default);
+        builder.Services.AddSingleton(OcrPlugin.Default);
 
 #if DEBUG
         builder.Logging.AddDebug();

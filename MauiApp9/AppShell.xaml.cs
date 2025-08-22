@@ -10,7 +10,7 @@ public partial class AppShell : Shell
 
         Routing.RegisterRoute("MainPage", typeof(MainPage));
         Routing.RegisterRoute("SingletonPage", typeof(SingletonPage));
-        // Routing.RegisterRoute("OcrPage", typeof(OcrPage));
+        Routing.RegisterRoute("OcrPage", typeof(OcrPage));
         Routing.RegisterRoute("OcrWithAiPage", typeof(OcrWithAiPage));
 
         Routing.RegisterRoute("ModalPage", typeof(ModalPage));
