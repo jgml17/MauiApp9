@@ -26,10 +26,7 @@ public partial class OcrPage : ContentPage
     private readonly IOcrService _ocr;
     private byte[] _originalImageData;
     private byte[] _preprocessedImageData;
-    private bool _isResultsExpanded = false;
-    private bool _isPreviewExpanded = false;
-    private GridLength _originalLeftColumnWidth;
-    private GridLength _originalRightColumnWidth;
+
 
     public OcrPage(IOcrService feature)
     {
@@ -38,134 +35,7 @@ public partial class OcrPage : ContentPage
         _ocr = feature;
     }
 
-    private void ExpandResultsBtn_Clicked(object sender, EventArgs e)
-    {
-        ToggleResultsPanel();
-    }
 
-    private void ExpandPreviewBtn_Clicked(object sender, EventArgs e)
-    {
-        TogglePreviewPanel();
-    }
-
-    private void ResultsPanel_Tapped(object sender, TappedEventArgs e)
-    {
-        // Only expand if we tap the header or empty space, not on the text content
-        var tapPosition = e.GetPosition(ResultsPanel);
-        if (tapPosition != null && tapPosition.Value.Y < 50)
-        {
-            ToggleResultsPanel();
-        }
-    }
-
-    private void PreviewPanel_Tapped(object sender, TappedEventArgs e)
-    {
-        // Only expand if we tap the header or empty space
-        var tapPosition = e.GetPosition(PreviewPanel);
-        if (tapPosition != null && tapPosition.Value.Y < 50)
-        {
-            TogglePreviewPanel();
-        }
-    }
-
-    private void ToggleResultsPanel()
-    {
-        if (!_isResultsExpanded && !_isPreviewExpanded)
-        {
-            // Save original column widths before expanding
-            _originalLeftColumnWidth = ContentPanels.ColumnDefinitions[0].Width;
-            _originalRightColumnWidth = ContentPanels.ColumnDefinitions[1].Width;
-        }
-
-        if (_isResultsExpanded)
-        {
-            // Restore to original state
-            ContentPanels.ColumnDefinitions[0].Width = _originalLeftColumnWidth;
-            ContentPanels.ColumnDefinitions[1].Width = _originalRightColumnWidth;
-            PreviewPanel.IsVisible = true;
-            _isResultsExpanded = false;
-
-            // Update expand button icon
-            ((FontImageSource)ExpandResultsBtn.ImageSource).Glyph = "\ue5d0"; // expand icon
-        }
-        else
-        {
-            // Expand results panel to full width
-            ContentPanels.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
-            ContentPanels.ColumnDefinitions[1].Width = new GridLength(0);
-            PreviewPanel.IsVisible = false;
-            _isResultsExpanded = true;
-
-            // If other panel was expanded, unexpand it
-            if (_isPreviewExpanded)
-            {
-                _isPreviewExpanded = false;
-                ((FontImageSource)ExpandPreviewBtn.ImageSource).Glyph = "\ue5d0"; // expand icon
-            }
-
-            // Update expand button icon
-            ((FontImageSource)ExpandResultsBtn.ImageSource).Glyph = "\ue5cf"; // collapse icon
-        }
-    }
-
-    private void TogglePreviewPanel()
-    {
-        if (!_isResultsExpanded && !_isPreviewExpanded)
-        {
-            // Save original column widths before expanding
-            _originalLeftColumnWidth = ContentPanels.ColumnDefinitions[0].Width;
-            _originalRightColumnWidth = ContentPanels.ColumnDefinitions[1].Width;
-        }
-
-        if (_isPreviewExpanded)
-        {
-            // Restore to original state
-            ContentPanels.ColumnDefinitions[0].Width = _originalLeftColumnWidth;
-            ContentPanels.ColumnDefinitions[1].Width = _originalRightColumnWidth;
-            ResultsPanel.IsVisible = true;
-            _isPreviewExpanded = false;
-
-            // Update expand button icon
-            ((FontImageSource)ExpandPreviewBtn.ImageSource).Glyph = "\ue5d0"; // expand icon
-        }
-        else
-        {
-            // Expand preview panel to full width
-            ContentPanels.ColumnDefinitions[0].Width = new GridLength(0);
-            ContentPanels.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
-            ResultsPanel.IsVisible = false;
-            _isPreviewExpanded = true;
-
-            // If other panel was expanded, unexpand it
-            if (_isResultsExpanded)
-            {
-                _isResultsExpanded = false;
-                ((FontImageSource)ExpandResultsBtn.ImageSource).Glyph = "\ue5d0"; // expand icon
-            }
-
-            // Update expand button icon
-            ((FontImageSource)ExpandPreviewBtn.ImageSource).Glyph = "\ue5cf"; // collapse icon
-        }
-    }
-
-    // Add this to your ClearBtn_Clicked method
-    private void ResetPanels()
-    {
-        // Reset panel expansion states
-        if (_isResultsExpanded || _isPreviewExpanded)
-        {
-            ContentPanels.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
-            ContentPanels.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
-            ResultsPanel.IsVisible = true;
-            PreviewPanel.IsVisible = true;
-            _isResultsExpanded = false;
-            _isPreviewExpanded = false;
-
-            // Reset button icons
-            ((FontImageSource)ExpandResultsBtn.ImageSource).Glyph = "\ue5d0"; // expand icon
-            ((FontImageSource)ExpandPreviewBtn.ImageSource).Glyph = "\ue5d0"; // expand icon
-        }
-    }
 
     protected override async void OnAppearing()
     {
@@ -176,10 +46,10 @@ public partial class OcrPage : ContentPage
 
     private void CameraTabBtn_Clicked(object sender, EventArgs e)
     {
-        CameraTabBtn.BackgroundColor = Color.FromArgb("#6750A4");
+        CameraTabBtn.BackgroundColor = Colors.DodgerBlue;
         CameraTabBtn.TextColor = Colors.White;
-        FileTabBtn.BackgroundColor = Color.FromArgb("#E0E0E0");
-        FileTabBtn.TextColor = Color.FromArgb("#6750A4");
+        FileTabBtn.BackgroundColor = Colors.LightGray;
+        FileTabBtn.TextColor = Colors.Black;
 
         CameraOptions.IsVisible = true;
         FileOptions.IsVisible = false;
@@ -187,35 +57,36 @@ public partial class OcrPage : ContentPage
 
     private void FileTabBtn_Clicked(object sender, EventArgs e)
     {
-        FileTabBtn.BackgroundColor = Color.FromArgb("#6750A4");
+        FileTabBtn.BackgroundColor = Colors.Green;
         FileTabBtn.TextColor = Colors.White;
-        CameraTabBtn.BackgroundColor = Color.FromArgb("#E0E0E0");
-        CameraTabBtn.TextColor = Color.FromArgb("#6750A4");
+        CameraTabBtn.BackgroundColor = Colors.LightGray;
+        CameraTabBtn.TextColor = Colors.Black;
 
         FileOptions.IsVisible = true;
         CameraOptions.IsVisible = false;
     }
 
     /// <summary>
-    /// Shows the loading overlay with a custom message
+    /// Shows the loading indicator
     /// </summary>
     private void ShowLoading(string message = "Processing...")
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            ProcessingLabel.Text = message;
-            LoadingOverlay.IsVisible = true;
+            LoadingIndicator.IsVisible = true;
+            LoadingIndicator.IsRunning = true;
         });
     }
 
     /// <summary>
-    /// Hides the loading overlay
+    /// Hides the loading indicator
     /// </summary>
     private void HideLoading()
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            LoadingOverlay.IsVisible = false;
+            LoadingIndicator.IsVisible = false;
+            LoadingIndicator.IsRunning = false;
         });
     }
 
@@ -226,7 +97,6 @@ public partial class OcrPage : ContentPage
         NoImagePlaceholder.IsVisible = true;
         _originalImageData = null;
         _preprocessedImageData = null;
-        ResetPanels();
     }
 
     private async void CopyBtn_Clicked(object sender, EventArgs e)
