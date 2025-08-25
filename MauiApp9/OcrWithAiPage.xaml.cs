@@ -127,8 +127,8 @@ public partial class OcrWithAiPage : ContentPage
     {
         try
         {
-            var apiUrl = "http://192.168.68.57:5678/webhook-test/ocr";
-            // var apiUrl = "http://192.168.68.57:5678/webhook/ocr";
+            // var apiUrl = "http://192.168.68.57:5678/webhook-test/ocr";
+            var apiUrl = "http://192.168.68.57:5678/webhook/ocr";
 
             // Create multipart form data content
             using var content = new MultipartFormDataContent();

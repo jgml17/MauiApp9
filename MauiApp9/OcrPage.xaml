@@ -49,7 +49,10 @@
             </Grid>
 
             <!--  Camera Options  -->
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" x:Name="CameraOptions">
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="10"
+                x:Name="CameraOptions">
                 <Button
                     BackgroundColor="DodgerBlue"
                     Clicked="OpenFromCameraBtn_Clicked"
@@ -67,7 +70,11 @@
             </Grid>
 
             <!--  File Options  -->
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" IsVisible="False" x:Name="FileOptions">
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="10"
+                IsVisible="False"
+                x:Name="FileOptions">
                 <Button
                     BackgroundColor="Green"
                     Clicked="OpenFromFileBtn_Clicked"
@@ -184,7 +191,7 @@
                             VerticalOptions="StartAndExpand"
                             x:Name="ResultLbl" />
                     </ScrollView>
-                    
+
                     <!--  Copy Button  -->
                     <Button
                         BackgroundColor="Transparent"
@@ -202,7 +209,7 @@
                 BackgroundColor="DarkBlue"
                 Clicked="AnalyzeWithAiBtn_Clicked"
                 IsEnabled="{Binding Source={x:Reference ResultLbl}, Path=Text, Converter={toolkit:IsNotEqualConverter}, ConverterParameter='Waiting for results ...'}"
-                Text="Analyze with AI"
+                Text="Format Json response with AI"
                 TextColor="White"
                 x:Name="AnalyzeWithAiBtn" />
 
