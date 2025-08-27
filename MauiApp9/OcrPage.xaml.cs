@@ -1,9 +1,9 @@
 using System.Text.Json;
-using Emgu.CV;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
-using Emgu.CV.Util;
-using Emgu.CV.XPhoto;
+// using Emgu.CV;
+// using Emgu.CV.CvEnum;
+// using Emgu.CV.Structure;
+// using Emgu.CV.Util;
+// using Emgu.CV.XPhoto;
 using Plugin.Maui.OCR;
 using Plugin.Maui.OCR;
 using SixLabors.ImageSharp;
@@ -185,7 +185,7 @@ public partial class OcrPage : ContentPage
             try
             {
                 // Try different preprocessing parameters
-                _preprocessedImageData = ApplyAdvancedPreprocessing(_originalImageData);
+                // _preprocessedImageData = ApplyAdvancedPreprocessing(_originalImageData);
 
                 // Display the enhanced image
                 await DisplayImage(_preprocessedImageData);
@@ -404,127 +404,127 @@ public partial class OcrPage : ContentPage
         return null;
     }
 
-    private static byte[] ApplyAdvancedPreprocessing(byte[] imageData)
-    {
-        // Load image as grayscale
-        using var grayscaled = new Mat();
-        CvInvoke.Imdecode(imageData, ImreadModes.Grayscale, grayscaled);
-
-        // Ensure it's upright first
-        if (grayscaled.Width > grayscaled.Height)
-            CvInvoke.Rotate(grayscaled, grayscaled, RotateFlags.Rotate90Clockwise);
-
-        // 1. Apply CLAHE (adaptive histogram equalization)
-        using var clahed = new Mat();
-        CvInvoke.CLAHE(
-            grayscaled,
-            clipLimit: 2.0,
-            tileGridSize: new System.Drawing.Size(8, 8),
-            clahed
-        );
-
-        // 2. Gaussian Blur to smooth noise slightly
-        CvInvoke.MedianBlur(clahed, clahed, 3);
-
-        //using var deskewed = Deskew(clahed);
-
-        // 3. Adaptive Thresholding (better for uneven lighting)
-        using var thresholded = new Mat();
-        CvInvoke.AdaptiveThreshold(
-            clahed,
-            thresholded,
-            255,
-            AdaptiveThresholdType.MeanC,
-            ThresholdType.BinaryInv,
-            15,
-            10
-        );
-
-        // 4. Morphological Open + Close to remove noise and fill gaps
-        using var morphKernel = CvInvoke.GetStructuringElement(
-            ElementShape.Rectangle,
-            new System.Drawing.Size(2, 2),
-            new System.Drawing.Point(-1, -1)
-        );
-        CvInvoke.MorphologyEx(
-            thresholded,
-            thresholded,
-            MorphOp.Open,
-            morphKernel,
-            new System.Drawing.Point(-1, -1),
-            1,
-            BorderType.Reflect,
-            new MCvScalar()
-        );
-        CvInvoke.MorphologyEx(
-            thresholded,
-            thresholded,
-            MorphOp.Close,
-            morphKernel,
-            new System.Drawing.Point(-1, -1),
-            1,
-            BorderType.Reflect,
-            new MCvScalar()
-        );
-
-        // Return as byte array
-        return thresholded.ToImage<Gray, byte>().ToJpegData();
-    }
-
-    private static Mat Deskew(Mat src)
-    {
-        var isPortrait = src.Height > src.Width;
-        if (!isPortrait)
-        {
-            // Rotate 90 degrees clockwise to get back to portrait
-            CvInvoke.Rotate(src, src, RotateFlags.Rotate90Clockwise);
-        }
-
-        // Threshold to detect edges
-        using var binary = new Mat();
-        CvInvoke.Threshold(src, binary, 0, 255, ThresholdType.BinaryInv | ThresholdType.Otsu);
-
-        // Find contours
-        using var contours = new VectorOfVectorOfPoint();
-        CvInvoke.FindContours(
-            binary,
-            contours,
-            null,
-            RetrType.External,
-            ChainApproxMethod.ChainApproxSimple
-        );
-
-        // Combine all contour points into one big array
-        var allPoints = contours.ToArrayOfArray().SelectMany(p => p).ToArray();
-        if (allPoints.Length == 0)
-            return src.Clone(); // No contours found
-
-        using var pts = new VectorOfPoint(allPoints);
-        var box = CvInvoke.MinAreaRect(pts);
-
-        double angle = box.Angle;
-        if (angle < -45)
-            angle += 90;
-
-        // Rotate image to correct angle
-        var center = new System.Drawing.PointF(src.Width / 2f, src.Height / 2f);
-        using var rotationMatrix = new Mat();
-        CvInvoke.GetRotationMatrix2D(center, angle, 1.0, rotationMatrix);
-
-        using var rotated = new Mat();
-        CvInvoke.WarpAffine(
-            src,
-            rotated,
-            rotationMatrix,
-            src.Size,
-            Inter.Linear,
-            Warp.Default,
-            BorderType.Constant,
-            new MCvScalar(255)
-        );
-
-        return rotated.Clone();
-    }
+    // private static byte[] ApplyAdvancedPreprocessing(byte[] imageData)
+    // {
+    //     // Load image as grayscale
+    //     using var grayscaled = new Mat();
+    //     CvInvoke.Imdecode(imageData, ImreadModes.Grayscale, grayscaled);
+    //
+    //     // Ensure it's upright first
+    //     if (grayscaled.Width > grayscaled.Height)
+    //         CvInvoke.Rotate(grayscaled, grayscaled, RotateFlags.Rotate90Clockwise);
+    //
+    //     // 1. Apply CLAHE (adaptive histogram equalization)
+    //     using var clahed = new Mat();
+    //     CvInvoke.CLAHE(
+    //         grayscaled,
+    //         clipLimit: 2.0,
+    //         tileGridSize: new System.Drawing.Size(8, 8),
+    //         clahed
+    //     );
+    //
+    //     // 2. Gaussian Blur to smooth noise slightly
+    //     CvInvoke.MedianBlur(clahed, clahed, 3);
+    //
+    //     //using var deskewed = Deskew(clahed);
+    //
+    //     // 3. Adaptive Thresholding (better for uneven lighting)
+    //     using var thresholded = new Mat();
+    //     CvInvoke.AdaptiveThreshold(
+    //         clahed,
+    //         thresholded,
+    //         255,
+    //         AdaptiveThresholdType.MeanC,
+    //         ThresholdType.BinaryInv,
+    //         15,
+    //         10
+    //     );
+    //
+    //     // 4. Morphological Open + Close to remove noise and fill gaps
+    //     using var morphKernel = CvInvoke.GetStructuringElement(
+    //         ElementShape.Rectangle,
+    //         new System.Drawing.Size(2, 2),
+    //         new System.Drawing.Point(-1, -1)
+    //     );
+    //     CvInvoke.MorphologyEx(
+    //         thresholded,
+    //         thresholded,
+    //         MorphOp.Open,
+    //         morphKernel,
+    //         new System.Drawing.Point(-1, -1),
+    //         1,
+    //         BorderType.Reflect,
+    //         new MCvScalar()
+    //     );
+    //     CvInvoke.MorphologyEx(
+    //         thresholded,
+    //         thresholded,
+    //         MorphOp.Close,
+    //         morphKernel,
+    //         new System.Drawing.Point(-1, -1),
+    //         1,
+    //         BorderType.Reflect,
+    //         new MCvScalar()
+    //     );
+    //
+    //     // Return as byte array
+    //     return thresholded.ToImage<Gray, byte>().ToJpegData();
+    // }
+    //
+    // private static Mat Deskew(Mat src)
+    // {
+    //     var isPortrait = src.Height > src.Width;
+    //     if (!isPortrait)
+    //     {
+    //         // Rotate 90 degrees clockwise to get back to portrait
+    //         CvInvoke.Rotate(src, src, RotateFlags.Rotate90Clockwise);
+    //     }
+    //
+    //     // Threshold to detect edges
+    //     using var binary = new Mat();
+    //     CvInvoke.Threshold(src, binary, 0, 255, ThresholdType.BinaryInv | ThresholdType.Otsu);
+    //
+    //     // Find contours
+    //     using var contours = new VectorOfVectorOfPoint();
+    //     CvInvoke.FindContours(
+    //         binary,
+    //         contours,
+    //         null,
+    //         RetrType.External,
+    //         ChainApproxMethod.ChainApproxSimple
+    //     );
+    //
+    //     // Combine all contour points into one big array
+    //     var allPoints = contours.ToArrayOfArray().SelectMany(p => p).ToArray();
+    //     if (allPoints.Length == 0)
+    //         return src.Clone(); // No contours found
+    //
+    //     using var pts = new VectorOfPoint(allPoints);
+    //     var box = CvInvoke.MinAreaRect(pts);
+    //
+    //     double angle = box.Angle;
+    //     if (angle < -45)
+    //         angle += 90;
+    //
+    //     // Rotate image to correct angle
+    //     var center = new System.Drawing.PointF(src.Width / 2f, src.Height / 2f);
+    //     using var rotationMatrix = new Mat();
+    //     CvInvoke.GetRotationMatrix2D(center, angle, 1.0, rotationMatrix);
+    //
+    //     using var rotated = new Mat();
+    //     CvInvoke.WarpAffine(
+    //         src,
+    //         rotated,
+    //         rotationMatrix,
+    //         src.Size,
+    //         Inter.Linear,
+    //         Warp.Default,
+    //         BorderType.Constant,
+    //         new MCvScalar(255)
+    //     );
+    //
+    //     return rotated.Clone();
+    // }
 
     /// <summary>
     ///     Takes a photo and starts processing it using the OCR service with events.
