@@ -46,11 +46,25 @@ public partial class OcrWithAiPage : ContentPage
     {
         try
         {
-            var photo = await MediaPicker.Default.PickPhotoAsync();
-            if (photo != null)
+            new ImageCropper.Maui.ImageCropper()
             {
-                await ProcessSelectedPhoto(photo);
-            }
+                // PageTitle = LocalizationResourceManager["CropPageTitle"].ToString(),
+                // AspectRatioX = 1,
+                // AspectRatioY = 1,
+                CropShape = ImageCropper.Maui.ImageCropper.CropShapeType.Rectangle,
+                // SelectSourceTitle = LocalizationResourceManager["SelectOption"].ToString(),
+                // TakePhotoTitle = LocalizationResourceManager["PickPhoto"].ToString(),
+                // PhotoLibraryTitle = LocalizationResourceManager["TakePicture"].ToString(),
+                // CancelButtonTitle = LocalizationResourceManager["Cancel"].ToString(),
+                Success = async (imageFile) =>
+                {
+                    await Dispatcher.DispatchAsync(async () =>
+                    {
+                        var photo = new FileResult(imageFile);
+                        await ProcessSelectedPhoto(photo);
+                    });
+                },
+            }.Show(this);
         }
         catch (Exception ex)
         {
