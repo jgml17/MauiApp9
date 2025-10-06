@@ -69,7 +69,7 @@ public class PluginMessagePage : ContentPage
         try
         {
             // const string apiUrl = "http://10.0.2.2:5000";
-            const string apiUrl = "http://192.168.68.57:5001";
+            const string apiUrl = "http://192.168.68.79:5001";
             // const string apiUrl = "http://localhost:5000";
 
             var remoteInfo = await AssemblyPluginManager.GetRemotePluginInfoAsync(apiUrl);
