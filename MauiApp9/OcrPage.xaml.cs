@@ -1,4 +1,5 @@
 using System.Text.Json;
+using AsyncAwaitBestPractices;
 // using Emgu.CV;
 // using Emgu.CV.CvEnum;
 // using Emgu.CV.Structure;
@@ -40,7 +41,6 @@ public partial class OcrPage : ContentPage
     {
         base.OnAppearing();
 
-        await _ocr.InitAsync();
         _httpClient = new HttpClient();
     }
 
@@ -157,8 +157,9 @@ public partial class OcrPage : ContentPage
 
     private async Task<string> CallOcrApi(string text)
     {
-        // var apiUrl = "http://192.168.68.57:5678/webhook-test/ocrdata";
-        var apiUrl = "http://192.168.68.57:5678/webhook/ocrdata";
+        // var apiUrl = "http://192.168.68.79:5678/webhook-test/ocrdata";
+        var apiUrl = "http://192.168.68.79:5678/webhook/ocrdata";
+        // var apiUrl = "https://automation.jgml.app.br/webhook/ocrdata";
 
         using var client = new HttpClient();
         var json = JsonSerializer.Serialize(new { text });
@@ -235,7 +236,7 @@ public partial class OcrPage : ContentPage
         }
     }
 
-    private async void OpenFromCameraUseEventBtn_Clicked(object sender, EventArgs e)
+    private void OpenFromCameraUseEventBtn_Clicked(object sender, EventArgs e)
     {
         new ImageCropper.Maui.ImageCropper()
         {
@@ -247,16 +248,22 @@ public partial class OcrPage : ContentPage
             // TakePhotoTitle = LocalizationResourceManager["PickPhoto"].ToString(),
             // PhotoLibraryTitle = LocalizationResourceManager["TakePicture"].ToString(),
             // CancelButtonTitle = LocalizationResourceManager["Cancel"].ToString(),
-            Success = async (imageFile) =>
+            Success = (imageFile) =>
             {
-                await Dispatcher.DispatchAsync(async () =>
+                Dispatcher.Dispatch(() =>
                 {
-                    var photo = new FileResult(imageFile);
-                    _ocr.RecognitionCompleted += OnRecognitionCompleted;
-                    await StartProcessingPhoto(photo);
+                    ProcessImageFile(imageFile).SafeFireAndForget();
                 });
             },
         }.Show(this);
+    }
+
+    private async Task ProcessImageFile(string imageFile)
+    {
+        await _ocr.InitAsync().ConfigureAwait(false);
+        var photo = new FileResult(imageFile);
+        _ocr.RecognitionCompleted += OnRecognitionCompleted;
+        await StartProcessingPhoto(photo);
     }
 
     private async void OpenFromFileBtn_Clicked(object sender, EventArgs e)
@@ -361,7 +368,7 @@ public partial class OcrPage : ContentPage
         });
     }
 
-    private static async Task<byte[]> PreprocessImageForOcr(byte[] imageData)
+    private async Task<byte[]> PreprocessImageForOcr(byte[] imageData)
     {
         await using var ms = new MemoryStream(imageData);
         try

@@ -77,14 +77,14 @@
         <PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
 <!--        <PackageReference Include="Emgu.CV.runtime.maui.mini" Version="4.10.0.5680" />-->
         <PackageReference Include="ImageCropper.Maui" Version="1.2.3" />
-        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.100" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8" />
-        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.100" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.120" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.10" />
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.120" />
         <PackageReference Include="Mopups" Version="1.3.4" />
-        <PackageReference Include="Plugin.Maui.OCR" Version="1.0.15" />
+        <PackageReference Include="Plugin.Maui.OCR" Version="1.1.1" />
         <PackageReference Include="Plugin.Toolkit.Fonts.MaterialIcons" Version="1.0.4" />
-        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
-        <PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.6" />
+        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+        <PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.7" />
     </ItemGroup>
     
     <ItemGroup>
