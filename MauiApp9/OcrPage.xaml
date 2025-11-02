@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <ContentPage
+    ios:Page.UseSafeArea="True"
     x:Class="MauiApp9.OcrPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
@@ -17,20 +19,26 @@
                 Text="OCR" />
 
             <!--  Enhanced OCR Mode Switch  -->
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="12">
+            <HorizontalStackLayout
+                HorizontalOptions="Center"
+                IsVisible="False"
+                Spacing="12">
                 <Label
                     FontAttributes="Bold"
                     Text="Enhanced OCR Mode"
                     VerticalOptions="Center" />
                 <Switch
-                    IsToggled="False"
+                    IsToggled="True"
                     OnColor="DodgerBlue"
                     ThumbColor="White"
                     x:Name="TryHardSwitch" />
             </HorizontalStackLayout>
 
             <!--  Image Source Buttons  -->
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="10"
+                IsVisible="False">
                 <Button
                     BackgroundColor="DodgerBlue"
                     Clicked="CameraTabBtn_Clicked"
@@ -57,6 +65,7 @@
                     BackgroundColor="DodgerBlue"
                     Clicked="OpenFromCameraBtn_Clicked"
                     Grid.Column="0"
+                    IsVisible="False"
                     Text="Take Photo"
                     TextColor="White"
                     x:Name="OpenFromCameraBtn" />
@@ -134,7 +143,10 @@
             </Border>
 
             <!--  Process Buttons  -->
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="10"
+                IsVisible="False">
                 <Button
                     BackgroundColor="Orange"
                     Clicked="EnhanceImageBtn_Clicked"
@@ -164,11 +176,12 @@
             <Label
                 FontAttributes="Bold"
                 FontSize="16"
-                Text="OCR Result:" />
+                Text="OCR Result:"
+                x:Name="OcrResult" />
 
             <Border
                 BackgroundColor="White"
-                MinimumHeightRequest="150"
+                MinimumHeightRequest="50"
                 Stroke="Gray"
                 StrokeThickness="2">
                 <Border.StrokeShape>
@@ -217,7 +230,8 @@
             <Label
                 FontAttributes="Bold"
                 FontSize="16"
-                Text="AI Response:" />
+                Text="AI Response:"
+                x:Name="AiResponse" />
 
             <Border
                 BackgroundColor="White"

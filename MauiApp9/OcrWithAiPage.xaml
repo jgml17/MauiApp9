@@ -76,7 +76,8 @@
             <Label
                 FontAttributes="Bold"
                 FontSize="16"
-                Text="OCR Result:" />
+                Text="OCR Result:"
+                x:Name="OcrResult" />
 
             <Border
                 BackgroundColor="White"

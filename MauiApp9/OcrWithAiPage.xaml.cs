@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 
@@ -21,6 +22,9 @@ public partial class OcrWithAiPage : ContentPage
 
     private async void OnTakePhotoClicked(object sender, EventArgs e)
     {
+        OcrResult.Text = "OCR Result:";
+        OcrResultLabel.Text = "OCR result will appear here...";
+
         try
         {
             if (MediaPicker.Default.IsCaptureSupported)
@@ -46,6 +50,9 @@ public partial class OcrWithAiPage : ContentPage
     {
         try
         {
+            OcrResult.Text = "OCR Result:";
+            OcrResultLabel.Text = "OCR result will appear here...";
+
             new ImageCropper.Maui.ImageCropper()
             {
                 // PageTitle = LocalizationResourceManager["CropPageTitle"].ToString(),
@@ -101,6 +108,9 @@ public partial class OcrWithAiPage : ContentPage
 
     private async void OnProcessOcrClicked(object sender, EventArgs e)
     {
+        // Start timing
+        var stopwatch = Stopwatch.StartNew();
+
         if (_selectedImageBytes == null || _selectedImageBytes.Length == 0)
         {
             await DisplayAlert("Error", "Please select an image first", "OK");
@@ -134,6 +144,10 @@ public partial class OcrWithAiPage : ContentPage
             LoadingIndicator.IsVisible = false;
             LoadingIndicator.IsRunning = false;
             ProcessButton.IsEnabled = true;
+
+            // Stop timing
+            stopwatch.Stop();
+            OcrResult.Text = $"OCR Result Time: {stopwatch.ElapsedMilliseconds} ms";
         }
     }
 

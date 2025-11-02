@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using AsyncAwaitBestPractices;
 // using Emgu.CV;
@@ -92,6 +93,13 @@ public partial class OcrPage : ContentPage
 
     private void ClearBtn_Clicked(object sender, EventArgs e)
     {
+        ResetOcrPageState();
+    }
+
+    private void ResetOcrPageState()
+    {
+        OcrResult.Text = "Ocr Result:";
+        AiResponse.Text = "AI Response:";
         ResultLbl.Text = "Waiting for results ...";
         CapturedImage.Source = null;
         NoImagePlaceholder.IsVisible = true;
@@ -115,25 +123,31 @@ public partial class OcrPage : ContentPage
 
     private async void AnalyzeWithAiBtn_Clicked(object sender, EventArgs e)
     {
+        // Start timing
+        var stopwatch = Stopwatch.StartNew();
+
         if (ResultLbl.Text == "Waiting for results ...")
             return;
+        var aiResult = string.Empty;
 
         try
         {
             ShowLoading("Analyzing with AI...");
 
-            var aiResult = await CallOcrApi(ResultLbl.Text);
+            aiResult = await CallOcrApi(ResultLbl.Text);
 
             AiResponseLbl.Text = FormatJsonForDisplay(aiResult);
-            ;
         }
         catch (Exception ex)
         {
-            AiResponseLbl.Text = $"Error: {ex.Message}";
+            AiResponseLbl.Text = $"Error: {ex.Message}, aiResult{aiResult}";
         }
         finally
         {
             HideLoading();
+            // Stop timing
+            stopwatch.Stop();
+            AiResponse.Text = $"Ai Response Time: {stopwatch.ElapsedMilliseconds} ms";
         }
     }
 
@@ -238,6 +252,8 @@ public partial class OcrPage : ContentPage
 
     private void OpenFromCameraUseEventBtn_Clicked(object sender, EventArgs e)
     {
+        ResetOcrPageState();
+
         new ImageCropper.Maui.ImageCropper()
         {
             // PageTitle = LocalizationResourceManager["CropPageTitle"].ToString(),
@@ -260,10 +276,17 @@ public partial class OcrPage : ContentPage
 
     private async Task ProcessImageFile(string imageFile)
     {
+        // Start timing
+        var stopwatch = Stopwatch.StartNew();
+
         await _ocr.InitAsync().ConfigureAwait(false);
         var photo = new FileResult(imageFile);
         _ocr.RecognitionCompleted += OnRecognitionCompleted;
         await StartProcessingPhoto(photo);
+
+        // Stop timing
+        stopwatch.Stop();
+        OcrResult.Text = $"OCR Result Time: {stopwatch.ElapsedMilliseconds} ms";
     }
 
     private async void OpenFromFileBtn_Clicked(object sender, EventArgs e)
