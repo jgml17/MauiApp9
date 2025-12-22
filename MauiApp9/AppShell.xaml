@@ -31,21 +31,21 @@
                 Shell.NavBarIsVisible="False" />
         </Tab>
 
-        <Tab Route="OcrPage" Title="OCR">
-            <ShellContent
-                ContentTemplate="{DataTemplate local:OcrPage}"
-                NavigationPage.HasNavigationBar="False"
-                Shell.FlyoutItemIsVisible="False"
-                Shell.NavBarIsVisible="False" />
-        </Tab>
-
-        <Tab Route="OcrWithAiPage" Title="OCR BE with AI">
-            <ShellContent
-                ContentTemplate="{DataTemplate local:OcrWithAiPage}"
-                NavigationPage.HasNavigationBar="False"
-                Shell.FlyoutItemIsVisible="False"
-                Shell.NavBarIsVisible="False" />
-        </Tab>
+        <!-- <Tab Route="OcrPage" Title="OCR"> -->
+        <!--  <ShellContent  -->
+        <!--  ContentTemplate="{DataTemplate local:OcrPage}"  -->
+        <!--  NavigationPage.HasNavigationBar="False"  -->
+        <!--  Shell.FlyoutItemIsVisible="False"  -->
+        <!--  Shell.NavBarIsVisible="False" />  -->
+        <!-- </Tab> -->
+        <!--    -->
+        <!-- <Tab Route="OcrWithAiPage" Title="OCR BE with AI"> -->
+        <!--  <ShellContent  -->
+        <!--  ContentTemplate="{DataTemplate local:OcrWithAiPage}"  -->
+        <!--  NavigationPage.HasNavigationBar="False"  -->
+        <!--  Shell.FlyoutItemIsVisible="False"  -->
+        <!--  Shell.NavBarIsVisible="False" />  -->
+        <!-- </Tab> -->
 
         <Tab Route="MessagePage" Title="Message">
             <ShellContent
@@ -54,6 +54,15 @@
                 Shell.FlyoutItemIsVisible="False"
                 Shell.NavBarIsVisible="False" />
         </Tab>
+
+        <Tab Route="UxdiversPage" Title="UXDivers Popup">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:UxdiversPage}"
+                NavigationPage.HasNavigationBar="False"
+                Shell.FlyoutItemIsVisible="False"
+                Shell.NavBarIsVisible="False" />
+        </Tab>
+
     </TabBar>
 
     <!--  <ShellContent  -->

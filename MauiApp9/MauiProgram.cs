@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Mopups.Hosting;
 using Plugin.Maui.OCR;
 using Syncfusion.Maui.Toolkit.Hosting;
+using UXDivers.Popups.Maui;
 
 namespace MauiApp9;
 
@@ -16,6 +17,7 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
             .ConfigureMopups()
+            .UseUXDiversPopups()
             .ConfigureSyncfusionToolkit()
             .UseOcr()
             .ConfigureFonts(fonts =>
