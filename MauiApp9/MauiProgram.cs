@@ -1,5 +1,7 @@
-﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui;
+using MauiApp9.Services;
 using MauiAppCore;
+using MauiAppCore.Services;
 using MemoryToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Mopups.Hosting;
@@ -30,6 +32,10 @@ public static class MauiProgram
         // builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<BottomSheetPopup>();
+
+        // Register services
+        builder.Services.AddSingleton<ICustomPopupService, CustomPopupService>();
+        builder.Services.AddSingleton<INavigationParametersService, NavigationParametersService>();
 
         // Register ViewModels
         builder.Services.AddTransient<UxdiversViewModel>();

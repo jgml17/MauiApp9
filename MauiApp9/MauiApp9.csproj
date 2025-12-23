@@ -15,6 +15,9 @@
         either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
         <!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
+        <LangVersion>preview</LangVersion>
+        <MauiXamlInflator>SourceGen</MauiXamlInflator>
+
         <OutputType>Exe</OutputType>
         <RootNamespace>MauiApp9</RootNamespace>
         <UseMaui>true</UseMaui>

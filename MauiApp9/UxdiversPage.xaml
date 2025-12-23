@@ -3,6 +3,7 @@
 <ContentPage
     x:Class="MauiApp9.UxdiversPage"
     x:DataType="viewModel:UxdiversViewModel"
+    x:Name="Page"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewModel="clr-namespace:MauiAppCore;assembly=MauiAppCore"
@@ -13,19 +14,47 @@
         RowSpacing="20"
         VerticalOptions="Center">
 
-        <Button
-            Grid.Row="0"
-            HorizontalOptions="Center"
-            Text="Call Popup Sheet">
-            <Button.Behaviors>
+        <Border
+            BackgroundColor="#667eea"
+            HeightRequest="60"
+            Margin="30,0,30,0"
+            x:Name="CropImageButton">
+            <Border.Behaviors>
                 <toolkit:TouchBehavior
+                    Command="{Binding BindingContext.ShowPopupCommand, Source={x:Reference Page}}"
                     DefaultAnimationDuration="50"
                     DefaultAnimationEasing="{x:Static Easing.CubicInOut}"
                     PressedOpacity="0.6"
-                    PressedScale="0.9"
-                    TouchGestureCompleted="TouchBehavior_OnTouchGestureCompleted" />
-            </Button.Behaviors>
-        </Button>
+                    PressedScale="0.9" />
+            </Border.Behaviors>
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="15" />
+            </Border.StrokeShape>
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="18"
+                HorizontalTextAlignment="Center"
+                Text="Call Popup Sheet"
+                TextColor="White"
+                VerticalTextAlignment="Center" />
+        </Border>
+
+        <!--  <Button  -->
+        <!--  BackgroundColor="DarkGrey"  -->
+        <!--  Grid.Row="0"  -->
+        <!--  HorizontalOptions="Center"  -->
+        <!--  Text="Call Popup Sheet"  -->
+        <!--  TextColor="Black">  -->
+        <!--     <Button.Behaviors> -->
+        <!--  <toolkit:TouchBehavior  -->
+        <!--  Command="{Binding BindingContext.ShowPopupCommand, Source={x:Reference Page}}"  -->
+        <!--  DefaultAnimationDuration="50"  -->
+        <!--  DefaultAnimationEasing="{x:Static Easing.CubicInOut}"  -->
+        <!--  PressedOpacity="0.6"  -->
+        <!--  PressedScale="0.9" />  -->
+        <!--     </Button.Behaviors> -->
+        <!-- </Button> -->
 
         <Entry
             Grid.Row="1"
