@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using MauiAppCore;
 using MemoryToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Mopups.Hosting;
@@ -30,12 +31,12 @@ public static class MauiProgram
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<BottomSheetPopup>();
 
-        builder.Services.AddSingleton(OcrPlugin.Default);
+        // Register ViewModels
+        builder.Services.AddTransient<UxdiversViewModel>();
 
-#if DEBUG
+        builder.Services.AddSingleton(OcrPlugin.Default);
         builder.Logging.AddDebug();
         builder.UseLeakDetection();
-#endif
 
         return builder.Build();
     }

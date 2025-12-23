@@ -1,14 +1,36 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
-<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:MauiApp9"
-             x:Class="MauiApp9.App">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Application
+    x:Class="MauiApp9.App"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:local="clr-namespace:MauiApp9"
+    xmlns:uxd="clr-namespace:UXDivers.Popups.Maui.Controls;assembly=UXDivers.Popups.Maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+                <uxd:DarkTheme />
+                <uxd:PopupStyles />
             </ResourceDictionary.MergedDictionaries>
+
+            <!--  Font Customization  -->
+            <x:String x:Key="IconsFontFamily">FontAwesome6Solid</x:String>
+            <x:String x:Key="AppFontFamily">OpenSansRegular</x:String>
+            <x:String x:Key="AppSemiBoldFamily">OpenSansSemibold</x:String>
+
+            <!--  Light Theme Overrides  -->
+            <Color x:Key="BackgroundColor">#FFFFFF</Color>
+            <Color x:Key="BackgroundSecondaryColor">#F5F5F5</Color>
+            <Color x:Key="BackgroundTertiaryColor">#EEEEEE</Color>
+
+            <Color x:Key="PopupBackdropColor">#88000000</Color>
+            <Color x:Key="PopupBorderColor">#E0E0E0</Color>
+
+            <Color x:Key="TextColor">#125999</Color>
+            <Color x:Key="TextSecondaryColor">#757575</Color>
+            <Color x:Key="TextTertiaryColor">#9E9E9E</Color>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

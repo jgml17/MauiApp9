@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<uxdc:ActionModalPopup
+    x:Class="MauiApp9.Popups.UxDiversPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:uxdc="clr-namespace:UXDivers.Popups.Maui.Controls;assembly=UXDivers.Popups.Maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Image
+        Aspect="AspectFit"
+        HeightRequest="300"
+        Source="dotnet_bot.png"
+        WidthRequest="600" />
+
+</uxdc:ActionModalPopup>
