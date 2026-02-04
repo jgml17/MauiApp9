@@ -15,6 +15,9 @@
         either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
         <!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
+        <!-- AOT  -->
+        <RunAOTCompilation>false</RunAOTCompilation>
+
         <LangVersion>preview</LangVersion>
         <MauiXamlInflator>SourceGen</MauiXamlInflator>
 
@@ -64,6 +67,22 @@
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
     </ItemGroup>
+
+    <!-- Development Configuration for iOS -->
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug' And $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+<!--        <CodesignKey>Apple Development: Jose Machado (4G5N29NA33)</CodesignKey>-->
+<!--        <CodesignProvision>DevJustSendIt</CodesignProvision>-->
+<!--        <CodesignEntitlements>Platforms/iOS/Entitlements.dev.plist</CodesignEntitlements>-->
+        <DefineConstants>IOS</DefineConstants>
+        <MtouchLink>None</MtouchLink>
+        <MtouchDebug>true</MtouchDebug>
+        <MtouchProfiling>true</MtouchProfiling>
+        <MtouchFastDev>true</MtouchFastDev>
+        <MtouchUseLlvm>false</MtouchUseLlvm>
+        <OptimizeForSize>false</OptimizeForSize>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
         <AndroidEnableProfiler>true</AndroidEnableProfiler>
